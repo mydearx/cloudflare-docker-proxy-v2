@@ -1,0 +1,39 @@
+name = "cloudflare-docker-proxy-v2"
+compatibility_date = "2023-12-01"
+
+[dev]
+ip = "0.0.0.0"
+port = 8787
+local_protocol = "http"
+
+[env.vars]
+CUSTOM_DOMAIN = "banjy.xyz"
+
+[env.dev.vars]
+MODE = "debug"
+TARGET_UPSTREAM = "https://registry-1.docker.io"
+CUSTOM_DOMAIN = "banjy.xyz"
+
+[env.production]
+name = "cloudflare-docker-proxy"
+ routes = [
+   { pattern = "docker.banjy.xyz", custom_domain = true },
+   { pattern = "quay.banjy.xyz", custom_domain = true },
+   { pattern = "gcr.banjy.xyz", custom_domain = true },
+   { pattern = "k8s-gcr.banjy.xyz", custom_domain = true },
+   { pattern = "k8s.banjy.xyz", custom_domain = true },
+   { pattern = "ghcr.banjy.xyz", custom_domain = true },
+   { pattern = "cloudsmith.banjy.xyz", custom_domain = true },
+ ]
+
+[env.production.vars]
+MODE = "production"
+TARGET_UPSTREAM = ""
+
+[env.staging]
+name = "cloudflare-docker-proxy-staging"
+route = { pattern = "docker-staging.banjy.xyz", custom_domain = true }
+
+[env.staging.vars]
+MODE = "staging"
+TARGET_UPSTREAM = ""
